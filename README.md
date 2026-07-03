@@ -6,9 +6,14 @@ the same look and feel.
 
 ## Install
 
+Not published to npm — install directly from GitHub:
+
 ```bash
-npm install tds @mui/material @emotion/react @emotion/styled react react-dom
+npm install github:Titungco/tds @mui/material @emotion/react @emotion/styled react react-dom
 ```
+
+`dist/` isn't committed to the repo; npm builds it automatically via the
+`prepare` script when installing from git.
 
 ## Usage
 
