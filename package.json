@@ -1,46 +1,26 @@
 {
-  "name": "tds",
+  "name": "tds-monorepo",
   "version": "0.1.0",
-  "description": "Titung Design System — shared design tokens, MUI theme, and primitive components used across Titung products.",
+  "private": true,
+  "description": "Titung Design System monorepo — @tds/ui (primitives) and @tds/digital (composed sections), each with its own Storybook, plus Docusaurus docs.",
   "license": "UNLICENSED",
-  "private": false,
-  "type": "module",
-  "sideEffects": false,
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
-    }
-  },
-  "files": [
-    "dist"
-  ],
+  "packageManager": "pnpm@12.6.0",
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
-    "typecheck": "tsc --noEmit",
-    "prepare": "tsup"
-  },
-  "peerDependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.0",
-    "@mui/material": "^9.0.0",
-    "react": "^18.0.0 || ^19.0.0",
-    "react-dom": "^18.0.0 || ^19.0.0"
+    "build": "turbo run build",
+    "dev": "turbo run dev storybook",
+    "typecheck": "turbo run typecheck",
+    "lint": "oxlint",
+    "storybook:ui": "turbo run storybook --filter=@tds/ui",
+    "storybook:digital": "turbo run storybook --filter=@tds/digital",
+    "build-storybook": "turbo run build-storybook",
+    "docs": "pnpm --filter @tds/docs start",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "pnpm run build && changeset publish"
   },
   "devDependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.0",
-    "@mui/material": "^9.1.2",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "tsup": "^8.3.5",
-    "typescript": "^5"
+    "@changesets/cli": "^3.0.3",
+    "oxlint": "^0.15.0",
+    "turbo": "^2.11.4"
   }
 }
