@@ -1,0 +1,9 @@
+packages:
+  - "packages/*"
+  - "apps/*"
+overrides:
+  typescript: ^5.9.3
+allowBuilds:
+  "@swc/core": true
+  core-js: true
+  esbuild: true

@@ -1,0 +1,105 @@
+---
+sidebar_position: 3
+---
+
+# Primitives (tds/ui)
+
+Thin wrappers around `@mui/material` components. All visual styling comes
+from the [theme](./tokens); a primitive only pins a sensible default when
+one is worth having (e.g. `Card` defaults to `variant="outlined"`).
+
+| Component | What it wraps | Notable default |
+| --- | --- | --- |
+| `Button` | `@mui/material/Button` | `disableElevation` |
+| `Card` | `@mui/material/Card` | `variant="outlined"` |
+| `Container` | `@mui/material/Container` | `maxWidth="lg"` |
+| `Grid` | `@mui/material/Grid` | — |
+| `Logo` | — (bespoke) | Titung wordmark |
+
+## Button
+
+Every MUI `Button` prop works as-is (`variant`, `color`, `href`, `disabled`,
+...) — `disableElevation` is pinned so the flat, no-shadow look stays
+consistent everywhere.
+
+```tsx
+import { Button } from "@tds/ui";
+
+<Button variant="contained" color="primary" href="/get-started">
+  Start a Project
+</Button>
+
+<Button variant="outlined" color="secondary">
+  Learn more
+</Button>
+```
+
+## Card
+
+Defaults to `variant="outlined"` (a flat bordered surface) instead of
+MUI's default drop-shadow. Pass `variant="elevation"` to opt back into a
+shadow.
+
+```tsx
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import { Card } from "@tds/ui";
+
+<Card sx={{ maxWidth: 320 }}>
+  <CardContent>
+    <Typography variant="h6">Card title</Typography>
+    <Typography variant="body1" color="text.secondary">
+      Supporting copy that describes what this card links to.
+    </Typography>
+  </CardContent>
+</Card>
+```
+
+## Container
+
+Defaults to `maxWidth="lg"`, the reading width used across Titung
+marketing pages. Override per-instance when a section needs to be
+narrower or full-bleed.
+
+```tsx
+import { Container } from "@tds/ui";
+
+<Container>
+  {/* constrained to "lg" */}
+</Container>
+
+<Container maxWidth="sm">
+  {/* narrower reading column, e.g. a blog post body */}
+</Container>
+```
+
+## Grid
+
+A direct re-export of MUI's `Grid` — no TDS-specific behavior. Uses MUI's
+`size` prop for responsive columns.
+
+```tsx
+import { Grid } from "@tds/ui";
+
+<Grid container spacing={2}>
+  <Grid size={{ xs: 12, sm: 4 }}>One</Grid>
+  <Grid size={{ xs: 12, sm: 4 }}>Two</Grid>
+  <Grid size={{ xs: 12, sm: 4 }}>Three</Grid>
+</Grid>
+```
+
+## Logo
+
+The Titung wordmark. `onClick` is optional — wrap the rendered `Logo` in
+your own router `Link`/anchor for navigation rather than relying on
+`onClick` alone.
+
+```tsx
+import { Logo } from "@tds/ui";
+
+<Logo />
+<Logo label="tds" onClick={() => console.log("clicked")} />
+```
+
+See each component's Storybook page (`pnpm run storybook:ui`) for every
+variant and prop.

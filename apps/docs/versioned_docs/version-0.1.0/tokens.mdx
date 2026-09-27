@@ -1,0 +1,57 @@
+---
+sidebar_position: 2
+---
+
+# Tokens
+
+`tds/ui` exports the raw design tokens (`tokens`) alongside a ready-to-use
+MUI theme (`theme`) built from them. The theme is what you actually pass to
+`ThemeProvider`; the tokens exist for anything that isn't MUI (CSS
+variables, non-MUI components, docs like this one).
+
+```tsx
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import { theme } from "@tds/ui";
+
+export default function App({ children }) {
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      {children}
+    </ThemeProvider>
+  );
+}
+```
+
+## Current values
+
+| Token | Value |
+| --- | --- |
+| Primary | `#E85D04` |
+| Primary hover | `#F48C06` |
+| Secondary / text primary | `#0A0A0A` |
+| Background | `#EFEFEC` |
+| Paper | `#FFFFFF` |
+| Text secondary | `#64748B` |
+| Font family | `Inter` |
+| Border radius | `4px` |
+
+Don't forget to load the Inter font — the theme's `fontFamily` assumes it's
+available:
+
+```html
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+/>
+```
+
+Or read the URL from the tokens themselves: `tokens.typography.googleFontUrl`.
+
+## Source of truth
+
+Tokens and component styling are kept in sync with
+[titung/app/theme/theme.ts](https://github.com/Titungco/titung) — when the
+marketing site's visual language changes, update it there first, then port
+the change here.
