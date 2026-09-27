@@ -1,0 +1,38 @@
+---
+sidebar_position: 1
+---
+
+# Introduction
+
+TDS (Titung Design System) is the shared design system behind every Titung
+product: one set of design tokens, one themed MUI layer, and a library of
+composed sections built on top of it.
+
+It's split into two packages:
+
+- **[`tds/ui`](./primitives)** — design tokens, the MUI theme, and themed
+  MUI primitives (`Button`, `Card`, `Container`, `Grid`, `Logo`).
+- **[`tds/digital`](./sections)** — composed, CMS-agnostic sections
+  (`HeroBanner`, `Navigation`, `LatestNews`, `PostList`) built from
+  `tds/ui`. These don't know about WordPress, Next.js, or any particular
+  backend — they take plain props and render MUI-styled markup.
+
+Consumers (like the `wp-block-theme` WordPress project) wrap `tds/digital`
+sections with whatever glue their platform needs — a Gutenberg block's
+`edit`/`save`, a Next.js page, etc. — without re-implementing the visual
+design.
+
+## Install
+
+Not published yet — no npm registry or GitHub Packages target has been
+decided. Until then, consume a package via a git checkout + `pnpm link`,
+or a git submodule; see that package's own README.
+
+## Explore the components
+
+Each package ships its own Storybook, run from the repo root (uses pnpm):
+
+```bash
+pnpm run storybook:ui        # tds/ui primitives — http://localhost:6006
+pnpm run storybook:digital   # tds/digital sections — http://localhost:6007
+```

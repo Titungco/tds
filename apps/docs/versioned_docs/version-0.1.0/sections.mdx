@@ -1,0 +1,126 @@
+---
+sidebar_position: 4
+---
+
+# Sections (tds/digital)
+
+Composed, CMS-agnostic sections built from `tds/ui` primitives. Every
+section is presentational only — it takes plain props (or an array of
+`PostSummary` objects) and renders JSX. None of them fetch data or import a
+router; a consumer (a WordPress block, a Next.js page, ...) supplies the
+data and, where relevant, a `linkComponent` for routing.
+
+| Component | Purpose |
+| --- | --- |
+| `HeroBanner` | Eyebrow + title + description + up to two CTAs, with an optional media slot. |
+| `Navigation` | Site header: logo, nav links, optional CTA button. |
+| `LatestNews` | Curated highlight grid for a handful of featured posts. |
+| `PostList` | General-purpose post archive/listing, with optional pagination. |
+
+## HeroBanner
+
+```tsx
+import { HeroBanner } from "@tds/digital";
+
+<HeroBanner
+  eyebrow="Titung Design System"
+  title="One design system, every Titung product."
+  description="Shared tokens, a themed MUI layer, and composed sections you don't have to rebuild per project."
+  primaryAction={{ label: "Get started", href: "/docs/intro" }}
+  secondaryAction={{ label: "View on GitHub", href: "https://github.com/Titungco/tds" }}
+/>
+```
+
+`media` accepts any `ReactNode` (an illustration or screenshot) rendered
+beside the copy on wide screens; omit `primaryAction`/`secondaryAction` for
+a copy-only hero.
+
+## Navigation
+
+```tsx
+import { Navigation } from "@tds/digital";
+
+<Navigation
+  links={[
+    { label: "Product", href: "/product" },
+    { label: "Pricing", href: "/pricing" },
+    { label: "Blog", href: "/blog" },
+  ]}
+  cta={{ label: "Sign in", href: "/sign-in" }}
+/>
+```
+
+Pass `linkComponent` to route through Next.js/React Router instead of a
+plain `<a>` — see [Router-agnostic links](#router-agnostic-links) below.
+
+## LatestNews
+
+A curated highlight grid for a handful of featured posts (e.g. the 3 most
+recent). For a full paginated archive, use `PostList` instead.
+
+```tsx
+import { LatestNews, type PostSummary } from "@tds/digital";
+
+const posts: PostSummary[] = [
+  {
+    id: "1",
+    title: "Why we rebuilt our design system on MUI",
+    excerpt: "The tokens, the tradeoffs, and what we'd do differently.",
+    href: "/blog/rebuilding-on-mui",
+    date: "Sep 12, 2026",
+    imageUrl: "/img/blog/rebuilding-on-mui.png",
+  },
+  // ...
+];
+
+<LatestNews title="Latest from the blog" posts={posts} />;
+```
+
+## PostList
+
+General-purpose post archive/listing, with optional pagination. Every post
+gets equal billing (unlike `LatestNews`' curated highlight layout).
+
+```tsx
+import { useState } from "react";
+import { PostList, type PostSummary } from "@tds/digital";
+
+function BlogArchive({ posts, totalPages }: { posts: PostSummary[]; totalPages: number }) {
+  const [page, setPage] = useState(1);
+
+  return (
+    <PostList
+      posts={posts}
+      pagination={{ page, totalPages, onPageChange: setPage }}
+    />
+  );
+}
+```
+
+`onPageChange` only updates local state here — whether that re-queries the
+server for the new page (a fresh server-render) or hydrates client-side
+pagination is entirely up to the consumer. `PostList` has no opinion on it.
+
+## Router-agnostic links
+
+`Navigation`, `LatestNews`, and `PostList` accept an optional
+`linkComponent` prop so you can swap in a router's `Link` (Next.js, React
+Router, ...) — it defaults to a plain `<a>`.
+
+```tsx
+import NextLink from "next/link";
+import { Navigation } from "@tds/digital";
+
+function RouterLink({ href, children, className }: { href: string; children: React.ReactNode; className?: string }) {
+  return (
+    <NextLink href={href} className={className}>
+      {children}
+    </NextLink>
+  );
+}
+
+<Navigation links={links} linkComponent={RouterLink} />;
+```
+
+See each section's Storybook page (`pnpm run storybook:digital`) for
+interactive examples, including a paginated `PostList` demo.
